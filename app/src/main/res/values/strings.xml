@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">DevigetTest</string>
+
+    <string name="dismiss_post">Dismiss Post</string>
+    <string name="comments">Comments</string>
+
 </resources>
