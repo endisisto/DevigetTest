@@ -3,6 +3,7 @@
 
     <string name="dismiss_post">Dismiss Post</string>
     <string name="comments">Comments</string>
+    <string name="dismiss_all">Dismiss All</string>
 
     <string name="post_moment_ago">moments ago</string>
     <string name="post_a_minute_ago">a minute ago</string>

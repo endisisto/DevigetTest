@@ -1,9 +1,7 @@
 package com.ezequieldisisto.devigettest.ui.fragment
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -26,15 +24,17 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        setHasOptionsMenu(true)
+
         view.setOnClickListener { findNavController().navigate(R.id.action_homeFragment_to_detailFragment) }
 
-        postRecycler.layoutManager = LinearLayoutManager(requireContext())
-        postRecycler.addItemDecoration(DividerItemDecorator(requireContext()))
+        setUpViews()
 
         postViewModel = ViewModelProviders.of(requireActivity()).get(PostViewModel::class.java)
 
         postViewModel.postList.observe(this, Observer {
 
+            swipeLayout.isRefreshing = false
             progress.visibility = View.GONE
             postRecycler.visibility = View.VISIBLE
             postRecycler.adapter = PostAdapter(it)
@@ -42,6 +42,27 @@ class HomeFragment : Fragment() {
 
         postViewModel.getPostList()
 
+    }
 
+    private fun setUpViews() {
+        swipeLayout.setColorSchemeResources(R.color.colorAccent)
+        swipeLayout.setOnRefreshListener {
+            swipeLayout.isRefreshing = true
+            postViewModel.getPostList()
+        }
+
+        postRecycler.layoutManager = LinearLayoutManager(requireContext())
+        postRecycler.addItemDecoration(DividerItemDecorator(requireContext()))
+
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+
+        inflater.inflate(R.menu.home_menu, menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return super.onOptionsItemSelected(item)
     }
 }
