@@ -58,4 +58,8 @@ class PostModel {
     fun getTopList(): Call<RedditResponse> {
         return api.getPostList()
     }
+
+    fun getNextPage(after: String): Call<RedditResponse> {
+        return api.getNextPostList(after)
+    }
 }
