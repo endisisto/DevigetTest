@@ -4,4 +4,11 @@
     <string name="dismiss_post">Dismiss Post</string>
     <string name="comments">Comments</string>
 
+    <string name="post_moment_ago">moments ago</string>
+    <string name="post_a_minute_ago">a minute ago</string>
+    <string name="post_minutes_ago">minutes ago</string>
+    <string name="post_an_hour_ago">an hour ago</string>
+    <string name="post_hours_ago">hours ago</string>
+    <string name="post_yesterday">yesterday</string>
+    <string name="post_days_ago">days ago</string>
 </resources>

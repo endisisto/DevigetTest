@@ -10,6 +10,7 @@ import com.bumptech.glide.Glide
 import com.ezequieldisisto.devigettest.R
 import com.ezequieldisisto.devigettest.model.PostData
 import com.ezequieldisisto.devigettest.ui.adapter.viewholder.PostViewHolder
+import com.ezequieldisisto.devigettest.util.Utils
 
 class PostAdapter(private val postList : ArrayList<PostData>) : RecyclerView.Adapter<PostViewHolder>() {
 
@@ -31,7 +32,7 @@ class PostAdapter(private val postList : ArrayList<PostData>) : RecyclerView.Ada
         post?.let {
             holder.title.text = it.title
             holder.author.text = it.author
-            holder.postedTime.text = it.created.toString()
+            holder.postedTime.text = Utils.getTimeAgo(context, it.created ?: 0)
             holder.commentAmount.text = "${it.commentsAmount} ${context.getString(R.string.comments)}"
 
             if (it.thumbnail.isNullOrEmpty() || !URLUtil.isValidUrl(it.thumbnail)) {

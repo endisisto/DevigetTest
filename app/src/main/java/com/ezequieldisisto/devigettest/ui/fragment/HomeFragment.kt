@@ -11,6 +11,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.ezequieldisisto.devigettest.R
 import com.ezequieldisisto.devigettest.ui.adapter.PostAdapter
+import com.ezequieldisisto.devigettest.util.DividerItemDecorator
 import com.ezequieldisisto.devigettest.viewmodel.PostViewModel
 import kotlinx.android.synthetic.main.fragment_home.*
 
@@ -28,6 +29,7 @@ class HomeFragment : Fragment() {
         view.setOnClickListener { findNavController().navigate(R.id.action_homeFragment_to_detailFragment) }
 
         postRecycler.layoutManager = LinearLayoutManager(requireContext())
+        postRecycler.addItemDecoration(DividerItemDecorator(requireContext()))
 
         postViewModel = ViewModelProviders.of(requireActivity()).get(PostViewModel::class.java)
 
