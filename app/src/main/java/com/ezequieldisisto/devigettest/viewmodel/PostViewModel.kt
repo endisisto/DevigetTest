@@ -16,6 +16,10 @@ class PostViewModel : ViewModel() {
     var lastPost: String = ""
     val MAX_SIZE = 50
 
+    init {
+        getPostList()
+    }
+
     fun getPostList() {
         PostModel.instance.getTopList().enqueue(object : Callback<RedditResponse> {
             override fun onFailure(call: Call<RedditResponse>, t: Throwable) {
@@ -53,7 +57,21 @@ class PostViewModel : ViewModel() {
         } else {
             status.value = Status.FULL_LIST
         }
+    }
 
+    fun deletePostList() {
+        postList.value?.clear()
+        postList.value = postList.value
+        status.value = Status.EMPTY_LIST
+
+    }
+
+    fun deletePost(position: Int) {
+        postList.value?.removeAt(position)
+        postList.value = postList.value
+        if (postList.value.isNullOrEmpty()) {
+            status.value = Status.EMPTY_LIST
+        }
     }
 
     enum class Status {

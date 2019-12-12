@@ -6,6 +6,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.ezequieldisisto.devigettest.R
@@ -18,7 +19,11 @@ import kotlinx.android.synthetic.main.fragment_home.*
 class HomeFragment : Fragment() {
 
     private lateinit var postViewModel: PostViewModel
-    private var adapter = PostAdapter()
+    private var adapter = PostAdapter({
+        findNavController().navigate(R.id.action_homeFragment_to_detailFragment)
+    }, {
+        postViewModel.deletePost(postRecycler.getChildAdapterPosition(it))
+    })
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_home, container, false)
@@ -34,6 +39,7 @@ class HomeFragment : Fragment() {
         postViewModel.postList.observe(this, Observer {
 
             swipeLayout.isRefreshing = false
+            emptyState.visibility = View.GONE
             progress.visibility = View.GONE
             postRecycler.visibility = View.VISIBLE
             adapter.addPosts(it)
@@ -46,7 +52,8 @@ class HomeFragment : Fragment() {
                     postRecycler.clearOnScrollListeners()
                 }
                 PostViewModel.Status.EMPTY_LIST -> {
-                    // for the dismiss all
+                    postRecycler.visibility = View.GONE
+                    emptyState.visibility = View.VISIBLE
                 }
                 PostViewModel.Status.ERROR -> {
                     Toast.makeText(
@@ -57,8 +64,6 @@ class HomeFragment : Fragment() {
                 }
             }
         })
-
-        postViewModel.getPostList()
 
         setUpViews()
     }
@@ -92,6 +97,11 @@ class HomeFragment : Fragment() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return super.onOptionsItemSelected(item)
+        return if (item.itemId == R.id.dismissAll) {
+            postViewModel.deletePostList()
+            true
+        } else {
+            super.onOptionsItemSelected(item)
+        }
     }
 }

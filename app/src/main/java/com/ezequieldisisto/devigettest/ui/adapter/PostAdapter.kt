@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.webkit.URLUtil
+import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -14,7 +15,7 @@ import com.ezequieldisisto.devigettest.ui.adapter.viewholder.PostViewHolder
 import com.ezequieldisisto.devigettest.util.PostListDiffCallback
 import com.ezequieldisisto.devigettest.util.Utils
 
-class PostAdapter : RecyclerView.Adapter<PostViewHolder>() {
+class PostAdapter(private val callback: ((View) -> Unit), private val deleteCallback: ((View) -> Unit)) : RecyclerView.Adapter<PostViewHolder>() {
 
     private lateinit var context: Context
     private var postList = ArrayList<PostData>()
@@ -22,6 +23,10 @@ class PostAdapter : RecyclerView.Adapter<PostViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PostViewHolder {
         context = parent.context
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_post, parent, false)
+
+        view.setOnClickListener { callback.invoke(view) }
+        view.findViewById<TextView>(R.id.btnDismiss).setOnClickListener { deleteCallback.invoke(view) }
+
         return PostViewHolder(view)
     }
 
