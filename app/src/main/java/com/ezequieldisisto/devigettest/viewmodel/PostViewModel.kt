@@ -61,6 +61,14 @@ class PostViewModel : ViewModel() {
         }
     }
 
+    fun markAsRead(position: Int){
+        postList.value?.get(position)?.post?.wasRead = true
+        postList.value = postList.value
+        if (postList.value.isNullOrEmpty()) {
+            status.value = Status.EMPTY_LIST
+        }
+    }
+
     fun deletePostList() {
         postList.value?.clear()
         postList.value = postList.value

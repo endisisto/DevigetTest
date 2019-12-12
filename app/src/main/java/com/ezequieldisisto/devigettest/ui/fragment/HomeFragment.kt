@@ -100,6 +100,7 @@ class HomeFragment : Fragment() {
 
     private fun goToDetail(position: Int){
         val postData = adapter.getPostAt(position)
+        postViewModel.markAsRead(position)
 
         val extras = Bundle()
         extras.putParcelable(Constants.KEY_POST, postData.post)

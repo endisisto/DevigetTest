@@ -42,6 +42,7 @@ class PostAdapter(private val callback: ((View) -> Unit),
         val post = postList[position].post
 
         post?.let {
+            holder.wasReadCheckBox.isChecked = it.wasRead
             holder.title.text = it.title
             holder.author.text = it.author
             holder.postedTime.text = Utils.getTimeAgo(context, it.created ?: 0)

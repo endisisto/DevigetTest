@@ -7,12 +7,13 @@ import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
 data class Post(val title: String? = null,
-           val author: String? = null,
-           val created: Long? = null,
-           val thumbnail: String? = null,
-           val url: String? = null,
-           @Json(name = "num_comments") val commentsAmount: Long? = null,
-           val id: String? = null): Parcelable {
+                val author: String? = null,
+                val created: Long? = null,
+                val thumbnail: String? = null,
+                val url: String? = null,
+                @Json(name = "num_comments") val commentsAmount: Long? = null,
+                val id: String? = null,
+                var wasRead: Boolean = false) : Parcelable {
 
     constructor(parcel: Parcel) : this(
             parcel.readString(),
@@ -21,7 +22,8 @@ data class Post(val title: String? = null,
             parcel.readString(),
             parcel.readString(),
             parcel.readValue(Long::class.java.classLoader) as? Long,
-            parcel.readString())
+            parcel.readString(),
+            parcel.readByte() != 0.toByte())
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeString(title)
@@ -31,6 +33,7 @@ data class Post(val title: String? = null,
         parcel.writeString(url)
         parcel.writeValue(commentsAmount)
         parcel.writeString(id)
+        parcel.writeByte(if (wasRead) 1 else 0)
     }
 
     override fun describeContents(): Int {
@@ -46,4 +49,6 @@ data class Post(val title: String? = null,
             return arrayOfNulls(size)
         }
     }
+
+
 }
