@@ -1,5 +1,7 @@
 package com.ezequieldisisto.devigettest.ui.fragment
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.*
 import android.widget.Toast
@@ -10,7 +12,9 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.ezequieldisisto.devigettest.R
+import com.ezequieldisisto.devigettest.ui.activity.MainActivity
 import com.ezequieldisisto.devigettest.ui.adapter.PostAdapter
+import com.ezequieldisisto.devigettest.util.Constants
 import com.ezequieldisisto.devigettest.util.DividerItemDecorator
 import com.ezequieldisisto.devigettest.util.EndlessScrollListener
 import com.ezequieldisisto.devigettest.viewmodel.PostViewModel
@@ -20,9 +24,11 @@ class HomeFragment : Fragment() {
 
     private lateinit var postViewModel: PostViewModel
     private var adapter = PostAdapter({
-        findNavController().navigate(R.id.action_homeFragment_to_detailFragment)
+        goToDetail(postRecycler.getChildAdapterPosition(it))
     }, {
         postViewModel.deletePost(postRecycler.getChildAdapterPosition(it))
+    }, {
+        goToFullImage(postRecycler.getChildAdapterPosition(it))
     })
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -31,6 +37,8 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        (requireActivity() as MainActivity).hideBack()
 
         setHasOptionsMenu(true)
 
@@ -87,6 +95,24 @@ class HomeFragment : Fragment() {
             override fun onLoadMore(page: Int, totalItemsCount: Int, view: RecyclerView?) {
                 postViewModel.getNextPostList()
             }
+        }
+    }
+
+    private fun goToDetail(position: Int){
+        val postData = adapter.getPostAt(position)
+
+        val extras = Bundle()
+        extras.putParcelable(Constants.KEY_POST, postData.post)
+
+        findNavController().navigate(R.id.action_homeFragment_to_detailFragment, extras)
+    }
+
+    private fun goToFullImage(position: Int){
+        val postData = adapter.getPostAt(position)
+
+        if (postData.post?.url?.matches(Regex(".*\\.jpg|.*\\.png\$")) == true) {
+            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(postData.post.url))
+            startActivity(intent)
         }
     }
 

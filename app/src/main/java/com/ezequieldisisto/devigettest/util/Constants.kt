@@ -7,5 +7,7 @@ class Constants {
         const val HOUR_MILLIS = 60 * MINUTE_MILLIS
         const val DAY_MILLIS = 24 * HOUR_MILLIS
 
+        const val KEY_POST = "post"
+
     }
 }

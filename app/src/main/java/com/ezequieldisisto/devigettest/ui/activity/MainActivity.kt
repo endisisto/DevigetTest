@@ -13,4 +13,18 @@ class MainActivity : AppCompatActivity() {
 
         setSupportActionBar(toolbar)
     }
+
+    override fun onSupportNavigateUp(): Boolean {
+        onBackPressed()
+        return true
+    }
+
+    fun showBack() {
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+    }
+
+    fun hideBack() {
+        supportActionBar?.setDisplayHomeAsUpEnabled(false)
+        supportActionBar?.setDisplayShowHomeEnabled(false)
+    }
 }

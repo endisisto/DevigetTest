@@ -73,7 +73,7 @@
         android:layout_height="wrap_content"
         android:drawableStart="@drawable/ic_clear"
         android:text="@string/dismiss_post"
-        android:layout_marginTop="@dimen/medium_margin"
+        android:paddingTop="@dimen/medium_margin"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/barrier" />
 
@@ -84,6 +84,6 @@
         android:gravity="end"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/btnDismiss"
-        app:layout_constraintTop_toTopOf="@+id/btnDismiss" />
+        app:layout_constraintBottom_toBottomOf="@+id/btnDismiss" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

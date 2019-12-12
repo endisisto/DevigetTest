@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.webkit.URLUtil
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
@@ -15,7 +16,9 @@ import com.ezequieldisisto.devigettest.ui.adapter.viewholder.PostViewHolder
 import com.ezequieldisisto.devigettest.util.PostListDiffCallback
 import com.ezequieldisisto.devigettest.util.Utils
 
-class PostAdapter(private val callback: ((View) -> Unit), private val deleteCallback: ((View) -> Unit)) : RecyclerView.Adapter<PostViewHolder>() {
+class PostAdapter(private val callback: ((View) -> Unit),
+                  private val deleteCallback: ((View) -> Unit),
+                  private val imageCallback: ((View) -> Unit)) : RecyclerView.Adapter<PostViewHolder>() {
 
     private lateinit var context: Context
     private var postList = ArrayList<PostData>()
@@ -26,6 +29,7 @@ class PostAdapter(private val callback: ((View) -> Unit), private val deleteCall
 
         view.setOnClickListener { callback.invoke(view) }
         view.findViewById<TextView>(R.id.btnDismiss).setOnClickListener { deleteCallback.invoke(view) }
+        view.findViewById<ImageView>(R.id.thumbnail).setOnClickListener { imageCallback.invoke(view) }
 
         return PostViewHolder(view)
     }
@@ -57,5 +61,9 @@ class PostAdapter(private val callback: ((View) -> Unit), private val deleteCall
         diffResult.dispatchUpdatesTo(this)
         postList.clear()
         postList.addAll(newPostList)
+    }
+
+    fun getPostAt(position: Int): PostData {
+        return postList[position]
     }
 }
