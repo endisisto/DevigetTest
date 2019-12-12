@@ -31,6 +31,7 @@ class PostViewModel : ViewModel() {
                 if (response.body()?.data?.children.isNullOrEmpty()) {
                     status.value = Status.EMPTY_LIST
                 } else {
+                    status.value = Status.SUCCESS
                     postList.value = response.body()?.data?.children as ArrayList<PostData>
                 }
             }
@@ -49,6 +50,7 @@ class PostViewModel : ViewModel() {
                     if (response.body()?.data?.children.isNullOrEmpty()) {
                         status.value = Status.EMPTY_LIST
                     } else {
+                        status.value = Status.SUCCESS
                         postList.value?.addAll(response.body()?.data?.children as ArrayList<PostData>)
                         postList.value = postList.value
                     }
@@ -75,6 +77,7 @@ class PostViewModel : ViewModel() {
     }
 
     enum class Status {
+        SUCCESS,
         FULL_LIST,
         EMPTY_LIST,
         ERROR

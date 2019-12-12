@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.webkit.URLUtil
 import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
 import com.ezequieldisisto.devigettest.R
@@ -28,7 +29,11 @@ class DetailFragment : Fragment() {
             author.text = it.author
             title.text = it.title
 
-            Glide.with(requireContext()).load(it.thumbnail).into(image)
+            if (it.thumbnail.isNullOrEmpty() || !URLUtil.isValidUrl(it.thumbnail)) {
+                image.visibility = View.GONE
+            } else {
+                Glide.with(requireContext()).load(it.thumbnail).into(image)
+            }
         }
     }
 }
